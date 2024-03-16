@@ -1,16 +1,13 @@
 FROM alpine
-
-LABEL "com.github.actions.name"="Github Action for rclone"
-LABEL "com.github.actions.description"="Wraps the rclone CLI to be used in Github Actions"
-LABEL "com.github.actions.icon"="upload-cloud"
-LABEL "com.github.actions.color"="blue"
-
-LABEL "repository"="https://github.com/mizunomi32/rclone-action"
-LABEL "homepage"="https://github.com/mizunomi32/rclone-action"
-LABEL "maintainer"="mz32 <mizuno@mz32.dev>"
+ENV ARCH=amd64
+ENV RCLONE_VERSION=v1.65.0
 
 RUN apk add --no-cache bash curl unzip ca-certificates fuse openssh-client \
-  && wget -qO- https://rclone.org/install.sh | bash \
+  && curl -L -o /tmp/rclone.zip https://downloads.rclone.org/${RCLONE_VERSION}/rclone-${RCLONE_VERSION}-linux-${ARCH}.zip\
+  && unzip /tmp/rclone.zip -d /tmp \
+  && mv /tmp/rclone-${RCLONE_VERSION}-linux-${ARCH}/rclone /usr/bin \
+  && chmod 755 /usr/bin/rclone \
+  && rm -rf /tmp/rclone.zip /tmp/rclone-${RCLONE_VERSION}-linux-${ARCH} \
   && apk del bash curl unzip
 
 ADD *.sh /
