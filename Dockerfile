@@ -1,6 +1,6 @@
 FROM alpine
 ENV ARCH=amd64
-ENV RCLONE_VERSION=v1.71.2
+ENV RCLONE_VERSION=v1.75.1
 
 RUN apk add --no-cache bash curl unzip ca-certificates fuse openssh-client \
   && curl -L -o /tmp/rclone.zip https://downloads.rclone.org/${RCLONE_VERSION}/rclone-${RCLONE_VERSION}-linux-${ARCH}.zip\
